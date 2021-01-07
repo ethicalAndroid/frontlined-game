@@ -14,9 +14,12 @@ public class UnitMaster : MonoBehaviour
     [SerializeField] float pushSpeed = 2f;
 
     FrontLine frontLine;
+    BattleManager battleManager;
 
     void Awake() {
         frontLine = FindObjectOfType<FrontLine>();
+        battleManager = FindObjectOfType<BattleManager>();
+
     }
 
     // Start is called before the first frame update
@@ -31,7 +34,7 @@ public class UnitMaster : MonoBehaviour
         
     }
 
-    private IEnumerator CombatTurn() {
+    public IEnumerator CombatTurn() {
         // Attack Before Push
         foreach (Unit x in totalUnits) {
             if (x.BeforePush()) {
@@ -74,6 +77,6 @@ public class UnitMaster : MonoBehaviour
                 yield return new WaitForSeconds(deathSpeed);
             }
         }
-
+        battleManager.ContinuePlaceTurn();
     }
 }

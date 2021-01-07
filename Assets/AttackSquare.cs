@@ -10,8 +10,12 @@ public class AttackSquare : MonoBehaviour
     [SerializeField] TextMesh myTextMesh;
     [SerializeField] Color[] colorBox;
 
+
+    LayerMask maskUnits;
     Collider2D myCollider;
+
     void Awake() {
+        maskUnits = LayerMask.GetMask("Units");
         myCollider = GetComponent<Collider2D>();
         RefreshSprites();
     }
@@ -36,9 +40,9 @@ public class AttackSquare : MonoBehaviour
 
     public void Attack() {
         // ANIMATION
-        Collider2D[] results = new Collider2D[1];
-        if (myCollider.OverlapCollider((new ContactFilter2D()).NoFilter(), results) > 0) {
-            Unit hitUnit = results[0].GetComponent<Unit>();
+        Collider2D foundCollider = Physics2D.OverlapPoint(transform.position, maskUnits);
+        if (foundCollider != null) {
+            Unit hitUnit = foundCollider.GetComponent<Unit>();
             if (hitUnit.GetTeamIndex() != teamIndex || hitUnit.GetTeamIndex() == 2) {
                 hitUnit.TakeDamage(baseDamage);
             }

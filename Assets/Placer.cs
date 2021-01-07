@@ -12,6 +12,7 @@ public class Placer : MonoBehaviour
     Transform placementGrid;
     HandSpace handSpaceRed;
     HandSpace handSpaceBlue;
+    BattleManager battleManager;
 
     void Awake() {
         maskGrab = LayerMask.GetMask("Grab");
@@ -21,6 +22,7 @@ public class Placer : MonoBehaviour
         placementGrid = GameObject.FindWithTag("Placement Grid").transform;
         handSpaceRed = GameObject.FindWithTag("HandRed").GetComponent<HandSpace>();
         handSpaceBlue = GameObject.FindWithTag("HandBlue").GetComponent<HandSpace>();
+        battleManager = FindObjectOfType<BattleManager>();
     }
 
     // Start is called before the first frame update
@@ -59,6 +61,7 @@ public class Placer : MonoBehaviour
                     Unit placedUnit = heldPiece.GetComponentInChildren<Unit>();
                     unitMaster.totalUnits.Add(placedUnit);
                     heldPiece = null;
+                    battleManager.ContinuePlaceTurn();
                 }
             }
             // Placing a piece back into a player's hand

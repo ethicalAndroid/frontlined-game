@@ -19,9 +19,7 @@ public class DrawMaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DrawPieceFromCollection(1, 0);
-        DrawPieceFromCollection(1, 0);
-        DrawPieceFromCollection(1, 0);
+
     }
 
     // Update is called once per frame

@@ -11,23 +11,32 @@ public class Unit : MonoBehaviour
     [SerializeField] AttackSquare[] afterPushAttack;
     Vector2Int myPos = new Vector2Int(0,0);
 
+    [SerializeField] TextMesh textHitpoints;
+    [SerializeField] TextMesh textPush;
+
     bool alive = true;
 
+    Collider2D myPlaceCollider;
+
     void Awake() {
-        SetSquaresActive(beforePushAttack, false);
-        SetSquaresActive(afterPushAttack, false);
+        myPlaceCollider = transform.parent.GetComponent<Collider2D>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetSquaresActive(beforePushAttack, false);
+        SetSquaresActive(afterPushAttack, false);
+        RefreshTextNumbers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (myPlaceCollider.isTrigger) {
+            SetSquaresActive(beforePushAttack, Input.GetKey("space"));
+            SetSquaresActive(afterPushAttack, Input.GetKey("space"));
+        }
     }
 
     public void Place(Vector2Int newPos, Transform newParent) {
@@ -40,6 +49,11 @@ public class Unit : MonoBehaviour
         for (int i = 0; i < targetSquares.Length; i++) {
             targetSquares[i].gameObject.SetActive(activeToSet);
         }
+    }
+
+    private void RefreshTextNumbers() {
+        textHitpoints.text = hitpoints.ToString();
+        textPush.text = push.ToString();
     }
 
     public bool DeathCheck() {
@@ -79,6 +93,7 @@ public class Unit : MonoBehaviour
         if (hitpoints <= 0) {
             hitpoints = 0;
         }
+        RefreshTextNumbers();
     }
 
     public int GetPush() {
